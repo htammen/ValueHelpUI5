@@ -1,0 +1,158 @@
+<mvc:View controllerName="de.tammenit.ValueHelpUI5.controller.Main" xmlns:html="http://www.w3.org/1999/xhtml" displayBlock="true"
+	xmlns:l="sap.ui.layout" xmlns:core="sap.ui.core" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m">
+	<App>
+		<pages>
+			<Page title="{i18n>title}">
+				<content>
+					<IconTabBar id="idIconTabBarMulti" expanded="{device>/isNoPhone}" class="sapUiResponsiveContentPadding">
+						<items>
+							<IconTabFilter text="Select" tooltip="Select" icon="sap-icon://slim-arrow-down">
+								<l:DynamicSideContent id="DynamicSideContent" class="sapUiDSCExplored sapUiContentPadding" sideContentFallDown="BelowM"
+									containerQuery="true" showSideContent="{viewModel>/DSCVisible}" breakpointChanged="updateToggleButtonState">
+									<l:mainContent>
+										<l:VerticalLayout class="sapUiContentPadding" width="100%">
+											<Text text="Select (simple)"/>
+											<Select forceSelection="false" selectedKey="" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
+												<core:Item key="{ProductId}" text="{Name}"/>
+											</Select>
+											<Text text="Select (two column layout)"/>
+											<Select forceSelection="true" showSecondaryValues="true" items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
+												<core:ListItem key="{ProductId}" text="{Name}" additionalText="{Price} {CurrencyCode}"/>
+											</Select>
+										</l:VerticalLayout>
+									</l:mainContent>
+									<l:sideContent>
+										<core:HTML content="{commentModel>/text}"/>
+									</l:sideContent>
+								</l:DynamicSideContent>
+							</IconTabFilter>
+							<IconTabFilter icon="sap-icon://arrow-down" text="Combobox" tooltip="Combobox">
+								<l:VerticalLayout class="sapUiContentPadding" width="100%">
+									<Text text="ComboBox (simple)"/>
+									<ComboBox items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
+										<core:Item key="{ProductId}" text="{Name}"/>
+									</ComboBox>
+									<Text text="ComboBox (two column layout)"/>
+									<HBox alignItems="Center" justifyContent="Start">
+										<ComboBox id="twoColumnComboBoxChange" showSecondaryValues="true" selectedKey="{comboBoxModel>/selectedKey}"
+											items="{ path: '/ProductCollection', sorter: { path: 'Name' } }" change="onTwoColumnComboBoxChange">
+											<core:ListItem key="{ProductId}" text="{Name}" additionalText="{Price} {CurrencyCode}"/>
+										</ComboBox>
+										<Text text="{= ${comboBoxModel>/selectedKey} === null ? 'null' : ${comboBoxModel>/selectedKey} }" class="sapUiSmallMarginBegin"/>
+									</HBox>
+									<Text text="ComboBox (lazy loading, visually same as simple)"/>
+									<ComboBox items="{ path: '/ProductCollection', sorter: { path: 'Name' }, suspended: true }" loadItems="handleLoadItems">
+										<core:ListItem key="{ProductId}" text="{Name}"/>
+									</ComboBox>
+									<Text text="ComboBox (search in text and additional text)"/>
+									<Text text="Search: 'Fla' and HT-613"/>
+									<ComboBox showSecondaryValues="true" filterSecondaryValues="true" value="{/comboBoxValue}" selectedKey="{/comboBoxKey}" width="500px"
+										items="{ path: '/ProductCollection', sorter: { path: 'Name' } }">
+										<core:ListItem key="{ProductId}" text="{Name}" additionalText="{ProductId}"/>
+									</ComboBox>
+								</l:VerticalLayout>
+							</IconTabFilter>
+							<IconTabFilter icon="sap-icon://overflow" text="Input Suggestion" tooltip="Input Suggestion">
+								<l:VerticalLayout class="sapUiContentPadding" width="100%">
+									<Text text="Input (with suggestion)"/>
+									<Input id="productInputSelection" valueHelpOnly="true" type="Text" placeholder="Enter Product ..." showSuggestion="true"
+										suggestionItems="{/ProductCollection}">
+										<suggestionItems>
+											<core:Item text="{Name}"/>
+										</suggestionItems>
+									</Input>
+									<Text text="Input (Assisted Two Values)"/>
+									<Input id="productInput" valueHelpOnly="true" type="Text" placeholder="Enter Product ..." showSuggestion="true" suggestionItems="{/ProductCollection}">
+										<suggestionItems>
+											<core:ListItem text="{Name}" additionalText="{SupplierName}"/>
+										</suggestionItems>
+									</Input>
+									<Text text="Input - with custom suggestion filter (Search for 'at', compare with case 1)"/>
+									<Input id="inputSuggestionCustomFilter" type="Text" placeholder="Enter Product ..." showSuggestion="true"
+										suggestionItems="{/ProductCollection}">
+										<suggestionItems>
+											<core:Item text="{Name}"/>
+										</suggestionItems>
+									</Input>
+									<Text text="Input (Assisted Tabular Suggestions)"/>
+									<Input id="productInput1" type="Text" placeholder="Enter Product ..." showSuggestion="true" showTableSuggestionValueHelp="false"
+										suggestionRows="{/ProductCollection}">
+										<suggestionColumns>
+											<Column hAlign="Begin" popinDisplay="Inline" demandPopin="true">
+												<Label text="Name"/>
+											</Column>
+											<Column hAlign="Center" popinDisplay="Inline" demandPopin="true" minScreenWidth="Tablet">
+												<Label text="Product ID"/>
+											</Column>
+											<Column hAlign="Center" popinDisplay="Inline" demandPopin="false" minScreenWidth="Tablet">
+												<Label text="Supplier Name"/>
+											</Column>
+											<Column hAlign="End" popinDisplay="Inline" demandPopin="true">
+												<Label text="Price"/>
+											</Column>
+										</suggestionColumns>
+										<suggestionRows>
+											<ColumnListItem>
+												<cells>
+													<Label text="{Name}"/>
+													<Label text="{ProductId}"/>
+													<Label text="{SupplierName}"/>
+													<Label text="{ parts:[{path:'Price'},{path:'CurrencyCode'}], type: 'sap.ui.model.type.Currency', formatOptions: {showMeasure: true} }"/>
+												</cells>
+											</ColumnListItem>
+										</suggestionRows>
+									</Input>
+									<Text text="Input - Suggestion with dynamic query (can be server side)"/>
+									<Input type="Text" placeholder="Enter Product ..." showSuggestion="true" suggest="handleSuggest" suggestionItems="{/ProductCollection}">
+										<suggestionItems>
+											<core:Item text="{Name}"/>
+										</suggestionItems>
+									</Input>
+								</l:VerticalLayout>
+							</IconTabFilter>
+							<IconTabFilter icon="sap-icon://value-help" text="Input with ValueHelp" tooltip="Input with ValueHelp">
+								<l:VerticalLayout class="sapUiContentPadding" width="100%">
+									<Text text="Input (with select dialog)"/>
+									<Input id="productInputSelectDialog" valueHelpOnly="true" type="Text" placeholder="Enter Product ..." showValueHelp="true"
+										valueHelpRequest="handleValueHelp"></Input>
+									<Text text="Input (with select dialog and suggestion)"/>
+									<Input id="productInputSelectDialog2" type="Text" placeholder="Enter Product ..." showSuggestion="true" showValueHelp="true"
+										valueHelpRequest="handleValueHelp" suggestionItems="{/ProductCollection}">
+										<suggestionItems>
+											<core:Item text="{Name}"/>
+										</suggestionItems>
+									</Input>
+									<Label text="Valuehelp:"></Label>
+									<MultiInput id="valuehelp1" valueHelpRequest="onValueHelpRequest" valueHelpOnly="true"/>
+								</l:VerticalLayout>
+							</IconTabFilter>
+						</items>
+					</IconTabBar>
+					<!--<l:VerticalLayout class="sapUiContentPadding" width="100%">-->
+					<!--	<l:content>-->
+					<!--		<Panel expandable="true" expanded="false" headerText="Combobox" width="auto" class="sapUiResponsiveMargin">-->
+					<!--			<content>-->
+					<!--			</content>-->
+					<!--		</Panel>-->
+					<!--		<Panel expandable="true" expanded="false" headerText="Input" width="auto" class="sapUiResponsiveMargin">-->
+					<!--			<content>-->
+					<!--			</content>-->
+					<!--		</Panel>-->
+					<!--	</l:content>-->
+					<!--</l:VerticalLayout>-->
+				</content>
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button text="{= (${viewModel>/DSCVisible} ? 'Close Description' : 'Show Description')}" type="Transparent"
+							press="toggleSideContentVisibility"/>
+					</Toolbar>
+				</footer>
+				<SelectDialog id="selectDialog" title="Products" class="sapUiPopupWithPadding" items="{/ProductCollection}" search="_handleValueHelpSearch"
+					confirm="_handleValueHelpClose" cancel="_handleValueHelpClose">
+					<StandardListItem icon="{ProductPicUrl}" iconDensityAware="false" iconInset="false" title="{Name}" description="{ProductId}"/>
+				</SelectDialog>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>

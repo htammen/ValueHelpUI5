@@ -1,0 +1,35 @@
+{
+    "application": {
+        "id": "",
+        "title": "de.tammenit.ValueHelpUI5.ValueHelpUI5",
+        "description": "UI5 Valuehelp Application",
+        "type": "SAP_UI5_Component",
+        "componentUrl": "/",
+        "appUrl": "#ValueHelpUI5-Display",
+        "navigationComponentName": "de.tammenit.ValueHelpUI5",
+        "intentSemanticObject": "ValueHelpUI5",
+        "intentAction": "Display",
+        "html5ApplicationName": "valuehelpui5",
+        "HCPParentApplicationName": ""
+    },
+    "assignment": {
+        "groups": [
+            "7310983f-9ee6-4112-8017-b00ee3780fab-1477928625436"
+        ],
+        "contentPackages": [
+            "0287f32c-934f-4eae-9637-4b700d4175fb-1477928987297"
+        ],
+        "categories": []
+    },
+    "tile": {
+        "type": "StaticTile",
+        "title": "UI5 ValueHelp",
+        "subtitle": "SAPUI5 ValueHelp possibilities",
+        "searchKeywords": "UI5 ValueHelp,SAPUI5 ValueHelp possibilities",
+        "displayIconUrl": "sap-icon://value-help",
+        "displayInfoText": "",
+        "size": "1x1",
+        "serviceURL": "",
+        "refreshInterval": ""
+    }
+}
