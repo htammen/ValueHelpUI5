@@ -14,8 +14,9 @@ sap.ui.define([
 		onInit: function() {
 			// set explored app's demo model on this sample
 			var oModel = new JSONModel(
-				"https://cors-anywhere.herokuapp.com/https://sapui5.hana.ondemand.com/test-resources/sap/ui/demokit/explored/products.json");
+        "https://cors-anywhere.herokuapp.com/https://ui5.sap.com/test-resources/sap/ui/documentation/sdk/products.json");
 			this.getView().setModel(oModel);
+				// "https://cors-anywhere.herokuapp.com/https://sapui5.hana.ondemand.com/test-resources/sap/ui/demokit/explored/products.json");
 			
 			var viewModel = new JSONModel({
 				"DSCVisible": true
